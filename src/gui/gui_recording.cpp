@@ -201,7 +201,7 @@ void GuiRecording::render_controls() {
         ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.9f, 0.15f, 0.15f, 1.0f));
         if (ImGui::Button("REC", ImVec2(90 * font_scale, 0))) {
             std::string filepath = Recorder::generate_filename();
-            rec.start(filepath, engine_.get_sample_rate());
+            rec.start(filepath, engine_.get_sample_rate(), 2);
         }
         ImGui::PopStyleColor(3);
 
