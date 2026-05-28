@@ -649,9 +649,20 @@ TEST(recorder_save_to_errors_and_edge_cases) {
 
 TEST(recorder_start_invalid_params_fails) {
     Recorder rec;
-    // Invalid folder path should fail file creation and return false
-    ASSERT_FALSE(rec.start("/non_existent_folder_xyz/recording.wav", 48000, 1));
+    
+    // 1. Empty filepath
+    ASSERT_FALSE(rec.start("", 48000, 1));
     ASSERT_FALSE(rec.is_recording());
+
+    // 2. Path where parent is a regular file
+    std::string dummy_file = "recordings/test_not_a_dir.txt";
+    std::ofstream dummy(dummy_file);
+    dummy.close();
+
+    ASSERT_FALSE(rec.start("recordings/test_not_a_dir.txt/recording.wav", 48000, 1));
+    ASSERT_FALSE(rec.is_recording());
+
+    std::remove(dummy_file.c_str());
 }
 
 TEST(recorder_waveform_sizing_boundaries) {
